@@ -12,6 +12,9 @@ require('dotenv').config();
 
 const express = require('express');
 const cors = require('cors');
+const helmet = require('helmet');
+const compression = require('compression');
+const rateLimit = require('express-rate-limit');
 const { log } = require('./utils/logger');
 
 const assessRoute = require('./routes/assess');
@@ -20,13 +23,51 @@ const chatRoute = require('./routes/chat');
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-// ── Middleware ──────────────────────────────────────────────────
-app.use(cors());
+// ── Production Middleware ─────────────────────────────────────────
+app.use(helmet()); // Sets various security-related HTTP headers
+app.use(compression()); // Gzip compression
+
+// Rate Limiting: 100 requests per 15 minutes per IP
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 100,
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: {
+        success: false,
+        error: 'RATE_LIMIT_EXCEEDED',
+        userMessage: 'Too many requests from this IP. Please try again after 15 minutes.'
+    }
+});
+app.use('/api/', limiter);
+
+// ── CORS Configuration ────────────────────────────────────────────
+const allowedOrigins = process.env.ALLOWED_ORIGINS
+    ? process.env.ALLOWED_ORIGINS.split(',')
+    : ['http://localhost:3000'];
+
+app.use(cors({
+    origin: (origin, callback) => {
+        // Allow requests with no origin (like mobile apps or curl)
+        if (!origin) return callback(null, true);
+        if (allowedOrigins.indexOf(origin) === -1) {
+            const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
+            return callback(new Error(msg), false);
+        }
+        return callback(null, true);
+    },
+    credentials: true
+}));
+
 app.use(express.json({ limit: '2mb' }));
 
 // ── Health Check ───────────────────────────────────────────────
 app.get('/', (req, res) => {
-    res.json({ status: 'ok', version: '1.0.0' });
+    res.json({
+        status: 'ok',
+        version: '1.0.0',
+        timestamp: new Date().toISOString()
+    });
 });
 
 // ── Routes ─────────────────────────────────────────────────────
@@ -53,6 +94,8 @@ app.use((err, req, res, next) => {
         success: false,
         error: err.code || 'INTERNAL_ERROR',
         userMessage: err.userMessage || 'An unexpected error occurred. Please try again.',
+        // Only include stack in dev
+        stack: process.env.NODE_ENV === 'development' ? err.stack : undefined
     });
 });
 
@@ -60,7 +103,7 @@ app.use((err, req, res, next) => {
 if (require.main === module) {
     app.listen(PORT, () => {
         log('Server', `Trially backend running on port ${PORT}`, {
-            provider: process.env.LLM_PROVIDER || 'claude',
+            provider: process.env.LLM_PROVIDER || 'not set',
             model: process.env.LLM_MODEL || 'not set',
             env: process.env.NODE_ENV || 'development',
         });
@@ -68,3 +111,4 @@ if (require.main === module) {
 }
 
 module.exports = app;
+
