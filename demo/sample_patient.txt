@@ -1,0 +1,49 @@
+REFERRAL SUMMARY — ONCOLOGY CONSULTATION
+
+Patient: Male, 58 years old
+Diagnosis: Stage IV non-small cell lung cancer (adenocarcinoma, non-squamous),
+confirmed histologically via CT-guided biopsy, right lower lobe primary.
+Diagnosis date: August 2024.
+
+Metastatic sites: Right hilar and mediastinal lymph nodes, right adrenal gland.
+Brain MRI (February 2026): No intracranial metastases.
+
+Molecular profiling (NGS, October 2024):
+- KRAS G12C mutation identified
+- EGFR: wild-type
+- ALK: negative
+- PD-L1 TPS: 65% (22C3 assay)
+
+Prior treatment history:
+1. Pembrolizumab monotherapy (first-line, started November 2024)
+   - Best response: Partial response confirmed at 3-month scan
+   - Duration on therapy: 8 months of stable/responding disease
+   - Progression confirmed: July 2025 (CT showing new adrenal lesion,
+     enlargement of mediastinal nodes)
+   - Pembrolizumab discontinued at confirmed progression
+
+2. Sotorasib 960mg daily (KRAS G12C inhibitor, second-line, started August 2025)
+   - Duration: 5 months
+   - Best response: Stable disease
+   - Discontinued February 2026 due to radiographic progression
+
+Current status (April 2026):
+- ECOG performance status: 1
+- Weight: 74 kg
+- No major surgery in the past 6 months
+- No known hypersensitivity to taxanes or polysorbate 80
+- No prior permanent discontinuation of immunotherapy due to adverse events
+
+Current medications:
+- Ondansetron PRN (nausea)
+- Omeprazole 20mg daily
+- Loratadine 10mg daily (seasonal allergies)
+
+Lab values (March 2026):
+- AST: 38 U/L (institutional ULN: 40 U/L) — within normal limits
+- ALT: 52 U/L (institutional ULN: 40 U/L) — mildly elevated, 1.3× ULN
+- ALP: 88 U/L (institutional ULN: 120 U/L) — within normal limits
+- Serum creatinine: 1.1 mg/dL
+- Absolute lymphocyte count: 1,450 cells/µL (institutional ULN: 1,200 cells/µL)
+- No active autoimmune disease
+- No history of ILD or pneumonitis

@@ -1,0 +1,111 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+
+  html,
+  body {
+    background-color: #0d1117;
+    color: #ffffff;
+  }
+}
+
+@layer components {
+
+  /* Restoring the original dark theme for glass cards */
+  .glass-card {
+    @apply bg-[#151b23] shadow-lg shadow-black/20 border border-white/5 rounded-2xl;
+  }
+
+  .glass-card-light {
+    @apply bg-[#151b23] shadow-md shadow-black/10 border border-white/5 rounded-xl transition-all duration-300;
+  }
+
+  /* The gradient the user loved — restored */
+  .gradient-text {
+    @apply bg-gradient-to-r from-teal-400 to-cyan-500 bg-clip-text text-transparent;
+  }
+
+  .fade-in {
+    animation: fadeIn 0.4s ease-out forwards;
+  }
+
+  .slide-up {
+    animation: slideUp 0.4s ease-out forwards;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-[#30363d] rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-[#8b949e];
+}
+
+/* Print styles */
+@media print {
+  body {
+    @apply bg-white text-gray-900;
+  }
+
+  .glass-card,
+  .glass-card-light {
+    @apply shadow-none border border-gray-300 break-inside-avoid bg-white;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  .print-only {
+    display: block !important;
+  }
+
+  .chat-panel {
+    display: none !important;
+  }
+
+  .criteria-panel {
+    width: 100% !important;
+    max-width: 100% !important;
+    border-right: none !important;
+  }
+
+  .gradient-text {
+    @apply text-gray-900 bg-none;
+  }
+}
