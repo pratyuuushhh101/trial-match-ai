@@ -108,11 +108,4 @@ Trially includes an integration test suite for the reasoning pipeline:
 npm test --workspace=backend
 ```
 
----
 
-## 📄 License
-Trially is private software. See the [Disclaimer](frontend/src/components/Disclaimer.jsx) for details regarding clinical use.
-
----
-
-*Built with ❤️ for Clinical Research Excellence.*
