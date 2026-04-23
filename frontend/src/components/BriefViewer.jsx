@@ -36,25 +36,39 @@ export default function BriefViewer({ state }) {
 
     return (
         <div className="space-y-8 pb-24 fade-in">
+            {/* ── Print-Only Report Header ───────────────────────── */}
+            <div className="hidden print-only mb-10 border-b-2 border-gray-900 pb-6">
+                <div className="flex justify-between items-end">
+                    <div>
+                        <div className="flex items-center gap-2 mb-2">
+                            <img src="/logo.svg" alt="Trially" className="w-8 h-8 dark-logo" />
+                            <span className="text-xl font-bold text-gray-900 uppercase tracking-tight">Trially Clinical Report</span>
+                        </div>
+                        <p className="text-xs text-gray-500 italic">Generated based on AI-Agent Reasoning Pipeline v1.0</p>
+                    </div>
+                    <div className="text-right">
+                        <p className="text-sm font-bold text-gray-900">Report Date: {new Date().toLocaleDateString()}</p>
+                        <p className="text-xs text-gray-500">Secure Consultation Record</p>
+                    </div>
+                </div>
+            </div>
+
             {/* ── Header ──────────────────────────────────────────── */}
-            <div className="glass-card p-6 sm:p-8">
-                <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+            <div className="glass-card p-6 sm:p-8 relative overflow-hidden">
+                <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 relative z-10">
                     <div className="flex-1">
-                        <h1 className="text-2xl font-bold text-white mb-2">Eligibility Assessment</h1>
-                        <p className="text-gray-400 text-sm leading-relaxed max-w-2xl">
+                        <h1 className="text-2xl font-bold text-white mb-2 print:text-black">Clinical Eligibility Assessment</h1>
+                        <p className="text-gray-400 text-sm leading-relaxed max-w-2xl print:text-gray-700">
                             {trial.title}
                         </p>
                         <div className="flex flex-wrap items-center gap-3 mt-3 text-xs text-gray-500">
-                            <span className="bg-gray-800 px-2.5 py-1 rounded-full">{trial.nctId}</span>
-                            <span className="bg-gray-800 px-2.5 py-1 rounded-full">{trial.phase}</span>
+                            <span className="bg-gray-800 px-2.5 py-1 rounded-full print:border print:border-gray-200 print:bg-white">{trial.nctId}</span>
+                            <span className="bg-gray-800 px-2.5 py-1 rounded-full print:border print:border-gray-200 print:bg-white">{trial.phase}</span>
                             <span className={`px-2.5 py-1 rounded-full ${trial.status === 'RECRUITING'
                                 ? 'bg-green-500/10 text-green-400 border border-green-500/20'
                                 : 'bg-yellow-500/10 text-yellow-400 border border-yellow-500/20'
-                                }`}>
+                                } print:border print:border-gray-200 print:bg-white`}>
                                 {trial.status}
-                            </span>
-                            <span className="bg-gray-800 px-2.5 py-1 rounded-full">
-                                {(totalTime / 1000).toFixed(1)}s total
                             </span>
                         </div>
                     </div>
@@ -66,8 +80,8 @@ export default function BriefViewer({ state }) {
 
             {/* ── Summary ─────────────────────────────────────────── */}
             <div className="glass-card p-6 sm:p-8">
-                <h2 className="text-lg font-semibold text-white mb-3">Summary</h2>
-                <p className="text-gray-300 leading-relaxed">{brief.summary}</p>
+                <h2 className="text-lg font-semibold text-white mb-3 print:text-black">Physician Executive Summary</h2>
+                <p className="text-gray-300 leading-relaxed print:text-gray-800">{brief.summary}</p>
             </div>
 
             {/* ── Verdict Stats ───────────────────────────────────── */}
@@ -89,7 +103,7 @@ export default function BriefViewer({ state }) {
                     borderColor="border-verdict-fails/20"
                 />
                 <StatCard
-                    label="Uncertain"
+                    label="Uncertain / Review"
                     count={counts.UNCERTAIN}
                     total={assessments.length}
                     color="text-verdict-uncertain"
@@ -98,9 +112,9 @@ export default function BriefViewer({ state }) {
                 />
             </div>
 
-            {/* ── Coordinator Checklist ───────────────────────────────── */}
+            {/* ── Coordinator Checklist (HIDDEN IN PRINT) ─────────── */}
             {brief.openQuestions && brief.openQuestions.length > 0 && (
-                <div className="glass-card p-6 sm:p-8 border-brand-accent/30 relative overflow-hidden group">
+                <div className="glass-card p-6 sm:p-8 border-brand-accent/30 relative overflow-hidden group no-print">
                     <div className="absolute inset-0 bg-brand-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
 
                     <div className="flex items-center gap-3 mb-5">
@@ -129,13 +143,13 @@ export default function BriefViewer({ state }) {
 
             {/* ── Patient Profile ─────────────────────────────────── */}
             <div className="glass-card p-6 sm:p-8">
-                <h2 className="text-lg font-semibold text-white mb-4">Extracted Patient Profile</h2>
+                <h2 className="text-lg font-semibold text-white mb-4 print:text-black">Structured Patient Metadata</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
-                    <Field label="Diagnosis" value={patient.primaryDiagnosis} />
-                    <Field label="Stage" value={patient.stage} />
-                    <Field label="Age" value={patient.age} />
-                    <Field label="Sex" value={patient.sex} />
-                    <Field label="ECOG" value={patient.ecogScore} />
+                    <Field label="Primary Diagnosis" value={patient.primaryDiagnosis} />
+                    <Field label="Clinical Stage" value={patient.stage} />
+                    <Field label="Chronological Age" value={patient.age} />
+                    <Field label="Biological Sex" value={patient.sex} />
+                    <Field label="Performance Status (ECOG)" value={patient.ecogScore} />
                     <Field
                         label="Medications"
                         value={
@@ -144,40 +158,16 @@ export default function BriefViewer({ state }) {
                                 : null
                         }
                     />
-                    <Field
-                        label="Prior Treatments"
-                        value={
-                            Array.isArray(patient.priorTreatments)
-                                ? patient.priorTreatments.join(' | ')
-                                : null
-                        }
-                        full
-                    />
-                    {patient.keyLabValues && typeof patient.keyLabValues === 'object' && (
-                        <div className="sm:col-span-2">
-                            <span className="text-gray-500 font-medium block mb-1">Lab Values</span>
-                            <div className="flex flex-wrap gap-2">
-                                {Object.entries(patient.keyLabValues).map(([key, val]) => (
-                                    <span key={key} className="bg-gray-800 text-gray-300 px-2.5 py-1 rounded-full text-xs">
-                                        {key}: {val}
-                                    </span>
-                                ))}
-                            </div>
-                        </div>
-                    )}
                 </div>
             </div>
 
             {/* ── Criteria Table ──────────────────────────────────── */}
-            <div>
+            <div className="break-before-page">
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
-                    <h2 className="text-lg font-semibold text-white">
-                        Criterion-by-Criterion Analysis
-                        <span className="text-sm font-normal text-gray-500 ml-2">
-                            ({filtered.length} of {criteriaTable.length})
-                        </span>
+                    <h2 className="text-xl font-bold text-white print:text-black">
+                        Criterion-by-Criterion Technical Analysis
                     </h2>
-                    <div className="flex gap-2">
+                    <div className="flex gap-2 no-print">
                         {['all', 'MEETS', 'FAILS', 'UNCERTAIN'].map((f) => (
                             <button
                                 key={f}
@@ -209,13 +199,33 @@ export default function BriefViewer({ state }) {
                 </div>
             </div>
 
+            {/* ── Print-Only Report Footer ───────────────────────── */}
+            <div className="hidden print-only mt-16 pt-8 border-t border-gray-200 text-xs text-gray-500">
+                <div className="grid grid-cols-2 gap-12">
+                    <div>
+                        <p className="mb-8 font-bold text-gray-700 uppercase tracking-widest">Physician Certification</p>
+                        <div className="border-b border-gray-400 w-full mb-2"></div>
+                        <p>Signature & Seal</p>
+                    </div>
+                    <div>
+                        <p className="mb-8 font-bold text-gray-700 uppercase tracking-widest">Coordinator Attestation</p>
+                        <div className="border-b border-gray-400 w-full mb-2"></div>
+                        <p>Signature & Date</p>
+                    </div>
+                </div>
+                <p className="mt-12 text-center text-[10px]">
+                    This report was generated using the Trially AI Reasoning Engine.
+                    It is an assistive decision-support tool and does not replace professional clinical judgment.
+                </p>
+            </div>
+
             {/* ── Warnings ────────────────────────────────────────── */}
             {meta.warnings && meta.warnings.length > 0 && (
-                <div className="bg-amber-500/5 border border-amber-500/20 rounded-2xl p-6">
-                    <h2 className="text-lg font-semibold text-amber-400 mb-3">⚠ Warnings</h2>
+                <div className="bg-amber-500/5 border border-amber-500/20 rounded-2xl p-6 print:bg-white print:border-gray-500">
+                    <h2 className="text-lg font-semibold text-amber-400 mb-3 print:text-black">⚠ Pipeline Warnings</h2>
                     <ul className="space-y-2">
                         {meta.warnings.map((w, i) => (
-                            <li key={i} className="text-sm text-amber-200">{w}</li>
+                            <li key={i} className="text-sm text-amber-200 print:text-gray-700">{w}</li>
                         ))}
                     </ul>
                 </div>
@@ -261,8 +271,8 @@ function ChecklistItem({ text, index }) {
         <div
             onClick={() => setChecked(!checked)}
             className={`flex items-start gap-3 p-3 rounded-xl transition-all duration-300 cursor-pointer border ${checked
-                    ? 'bg-gray-800/20 border-gray-800/50 grayscale opacity-60'
-                    : 'bg-brand-dark/10 border-brand-accent/20 hover:border-brand-light/40 hover:bg-brand-dark/20'
+                ? 'bg-gray-800/20 border-gray-800/50 grayscale opacity-60'
+                : 'bg-brand-dark/10 border-brand-accent/20 hover:border-brand-light/40 hover:bg-brand-dark/20'
                 }`}
         >
             <div className={`mt-0.5 w-5 h-5 rounded flex items-center justify-center flex-shrink-0 transition-colors ${checked ? 'bg-brand-accent text-white' : 'bg-gray-900 border border-gray-600'

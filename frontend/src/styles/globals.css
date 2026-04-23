@@ -76,15 +76,49 @@
   @apply bg-[#8b949e];
 }
 
-/* Print styles */
+/* Print styles — Professional Report Optimization */
 @media print {
+  @page {
+    margin: 15mm;
+  }
+
   body {
-    @apply bg-white text-gray-900;
+    background-color: white !important;
+    color: black !important;
+    font-size: 11pt;
+    line-height: 1.5;
   }
 
   .glass-card,
   .glass-card-light {
-    @apply shadow-none border border-gray-300 break-inside-avoid bg-white;
+    box-shadow: none !important;
+    border: 1px solid #ddd !important;
+    background-color: white !important;
+    padding: 1.5rem !important;
+    border-radius: 8px !important;
+    margin-bottom: 1.5rem !important;
+    break-inside: avoid;
+    color: black !important;
+  }
+
+  .gradient-text {
+    @apply text-black bg-none font-bold;
+    background: none !important;
+    -webkit-text-fill-color: initial !important;
+  }
+
+  h1,
+  h2,
+  h3 {
+    color: black !important;
+    margin-top: 2rem !important;
+    break-after: avoid;
+  }
+
+  p,
+  span,
+  div {
+    color: #333 !important;
   }
 
   .no-print {
@@ -95,17 +129,35 @@
     display: block !important;
   }
 
-  .chat-panel {
-    display: none !important;
+  /* Force table-like borders for criteria cards in print */
+  .criterion-card {
+    border-left: 6px solid #eee !important;
   }
 
-  .criteria-panel {
-    width: 100% !important;
+  .verdict-meets {
+    color: #059669 !important;
+    font-weight: bold;
+  }
+
+  .verdict-fails {
+    color: #dc2626 !important;
+    font-weight: bold;
+  }
+
+  .verdict-uncertain {
+    color: #d97706 !important;
+    font-weight: bold;
+  }
+
+  /* Logo inversion for light background printing */
+  .dark-logo {
+    filter: invert(1) brightness(0.2);
+  }
+
+  /* Reset layout margins for full-width print */
+  main {
     max-width: 100% !important;
-    border-right: none !important;
-  }
-
-  .gradient-text {
-    @apply text-gray-900 bg-none;
+    padding: 0 !important;
+    margin: 0 !important;
   }
 }
