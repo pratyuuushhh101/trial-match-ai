@@ -39,7 +39,7 @@ async function callLLM(systemPrompt, userPrompt, options = {}) {
     const { temperature = 0.2, maxTokens = 4000, jsonMode = false } = options;
 
     const provider = process.env.LLM_PROVIDER || 'groq';
-    const model = process.env.LLM_MODEL || 'llama-4-maverick-17b-128e-instruct';
+    const model = process.env.LLM_MODEL || 'llama-4-scout-17b-128e-instruct';
 
     if (!process.env.LLM_API_KEY || process.env.LLM_API_KEY === 'your_groq_api_key_here') {
         throw new LLMError('LLM_API_KEY is not set in environment variables', provider, model, null);

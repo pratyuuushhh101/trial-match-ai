@@ -52,7 +52,7 @@ The core of Trially is its sequential pipeline:
 
 *   **Frontend**: Next.js 14 (App/Pages), React, Tailwind CSS, Framer Motion.
 *   **Backend**: Node.js, Express, OpenAI SDK (Client).
-*   **LLMs**: Groq (Llama 4 Maverick), OpenAI (GPT-4o), BigModel (GLM 5.1).
+*   **LLMs**: Groq (Llama 4 Scout), OpenAI (GPT-4o), BigModel (GLM 5.1).
 *   **External API**: ClinicalTrials.gov REST API v2.
 *   **DevOps**: Docker, Docker Compose, Npm Workspaces.
 
@@ -76,12 +76,12 @@ npm install
 ```
 
 ### 3. Configure Environment Variables
-Copy `.env.example` to `backend/.env` and `frontend/.env.local`:
+Copy `.env.example` to `backend/.env`:
 ```bash
 # Example values in backend/.env
 LLM_API_KEY=your_key_here
 LLM_BASE_URL=https://api.groq.com/openai/v1
-LLM_MODEL=llama-4-maverick-17b-128e-instruct
+LLM_MODEL=llama-4-scout-17b-128e-instruct
 ```
 
 ### 4. Run the Development Server
